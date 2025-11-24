@@ -124,7 +124,82 @@ void forwardSelection(int totalFeatures) {
 
 
 // --------- Backward Elimination ---------
+
+/*Starts with all features and removes one at a time.
+   At each step, try removing each feature, evaluate the accuracy,
+   and permanently remove the feature whose removal gives the best accuracy. */
+
 void backwardElimination(int totalFeatures) {
-    // REMOVE WHEN CODING/IMPLEMENTING THIS FUNCTION
-    (void)  totalFeatures; // to shush the error that its not being used
+    // Start with all features
+    vector<int> currentSetOfFeatures;
+    for(int i=1; i <=totalFeatures; ++i){
+        currentSetOfFeatures.push_back(i);
+    }
+
+     if (currentSetOfFeatures.empty()) {
+        cout << "No features to run backward elimination on.\n\n";
+        return;
+    }
+     // Evaluate using all features first
+    double currentAccuracy = evaluateFeatureSet(currentSetOfFeatures);
+    double bestOverallAccuracy = currentAccuracy;
+    vector<int> bestOverallSet = currentSetOfFeatures;
+
+    cout << "Using all features "
+         << featureSetToString(currentSetOfFeatures)
+         << " and \"random\" evaluation, I get an accuracy of "
+         << currentAccuracy << "%\n\n";
+
+    cout << "Beginning search.\n\n";
+
+    // At each level, try removing one feature at a time
+    while (currentSetOfFeatures.size() > 1) {
+        int bestIndexToRemove = -1;       // index in currentSetOfFeatures
+        double bestAccuracyThisLevel = -1.0;
+
+          // Try removing each feature once
+        for (int i = 0; i < (int)currentSetOfFeatures.size(); ++i) {
+            vector<int> candidateSet = currentSetOfFeatures;
+            candidateSet.erase(candidateSet.begin() + i);
+            
+            double accuracy = evaluateFeatureSet(candidateSet);
+            cout << "\tUsing feature(s) "
+                 << featureSetToString(candidateSet)
+                 << " accuracy is " << accuracy << "%\n";
+
+            if (accuracy > bestAccuracyThisLevel) {
+                bestAccuracyThisLevel = accuracy;
+                bestIndexToRemove = i;
+            }
+        }
+        cout << "\n";
+
+        if (bestIndexToRemove == -1) {
+            break; 
+        }
+        // Build the new set after removing the chosen feature
+        vector<int> newSet = currentSetOfFeatures;
+        newSet.erase(newSet.begin() + bestIndexToRemove);
+
+        cout << "Feature set " << featureSetToString(newSet)
+             << " was best, accuracy is " << bestAccuracyThisLevel << "%\n\n";
+
+        // Update current set
+        currentSetOfFeatures = newSet;
+        currentAccuracy = bestAccuracyThisLevel;
+
+        // Warning if accuracy falls compared to best overall
+        if (currentAccuracy < bestOverallAccuracy) {
+            cout << "(Warning, Accuracy has decreased!)\n";
+        }
+
+        // Track best overall
+        if (currentAccuracy > bestOverallAccuracy) {
+            bestOverallAccuracy = currentAccuracy;
+            bestOverallSet = currentSetOfFeatures;
+        }
+    }
+     cout << "\nFinished search!! The best feature subset is "
+         << featureSetToString(bestOverallSet)
+         << ", which has an accuracy of " << bestOverallAccuracy << "%\n\n";
 }
