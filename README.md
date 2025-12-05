@@ -180,7 +180,9 @@ were all implemented correctly.
 
 ## Part II – Sample Program Output (CLI)
 
+```
 Welcome to Hikaru Shimada and Tristan Zhao's Feature Selection & NN Project.
+
 Please enter total number of features for feature selection (Part I / III): 3
 
 Type the number of the option you want to run:
@@ -188,11 +190,6 @@ Type the number of the option you want to run:
 2) Backward Elimination (Part I)
 3) Part II: Run NN + Validator on sample datasets
 Choice: 3
-
-### **Small Dataset (Verbose LOOCV Trace)**
-
-<details>
-<summary>Click to expand full LOOCV trace (100 steps)</summary>
 
 ==============================
  Part II: Small Dataset Test
@@ -207,21 +204,105 @@ LOOCV step 2/100 | predicted=2 actual=2 [correct]
 LOOCV step 3/100 | predicted=2 actual=2 [correct]
 LOOCV step 4/100 | predicted=1 actual=2 [wrong]
 LOOCV step 5/100 | predicted=2 actual=2 [correct]
-...
+LOOCV step 6/100 | predicted=2 actual=2 [correct]
+LOOCV step 7/100 | predicted=2 actual=2 [correct]
+LOOCV step 8/100 | predicted=2 actual=2 [correct]
+LOOCV step 9/100 | predicted=2 actual=2 [correct]
+LOOCV step 10/100 | predicted=1 actual=1 [correct]
+LOOCV step 11/100 | predicted=2 actual=2 [correct]
+LOOCV step 12/100 | predicted=2 actual=2 [correct]
+LOOCV step 13/100 | predicted=1 actual=1 [correct]
+LOOCV step 14/100 | predicted=2 actual=2 [correct]
+LOOCV step 15/100 | predicted=2 actual=2 [correct]
+LOOCV step 16/100 | predicted=1 actual=1 [correct]
+LOOCV step 17/100 | predicted=2 actual=2 [correct]
+LOOCV step 18/100 | predicted=2 actual=2 [correct]
+LOOCV step 19/100 | predicted=2 actual=2 [correct]
+LOOCV step 20/100 | predicted=2 actual=2 [correct]
+LOOCV step 21/100 | predicted=1 actual=1 [correct]
+LOOCV step 22/100 | predicted=2 actual=2 [correct]
+LOOCV step 23/100 | predicted=1 actual=1 [correct]
+LOOCV step 24/100 | predicted=2 actual=2 [correct]
+LOOCV step 25/100 | predicted=1 actual=2 [wrong]
+LOOCV step 26/100 | predicted=1 actual=1 [correct]
+LOOCV step 27/100 | predicted=2 actual=2 [correct]
+LOOCV step 28/100 | predicted=1 actual=1 [correct]
+LOOCV step 29/100 | predicted=2 actual=2 [correct]
+LOOCV step 30/100 | predicted=2 actual=2 [correct]
+LOOCV step 31/100 | predicted=1 actual=1 [correct]
+LOOCV step 32/100 | predicted=2 actual=2 [correct]
+LOOCV step 33/100 | predicted=2 actual=2 [correct]
+LOOCV step 34/100 | predicted=2 actual=2 [correct]
+LOOCV step 35/100 | predicted=1 actual=1 [correct]
+LOOCV step 36/100 | predicted=2 actual=2 [correct]
+LOOCV step 37/100 | predicted=1 actual=2 [wrong]
+LOOCV step 38/100 | predicted=2 actual=2 [correct]
+LOOCV step 39/100 | predicted=2 actual=2 [correct]
+LOOCV step 40/100 | predicted=2 actual=2 [correct]
+LOOCV step 41/100 | predicted=2 actual=2 [correct]
+LOOCV step 42/100 | predicted=2 actual=2 [correct]
+LOOCV step 43/100 | predicted=2 actual=2 [correct]
+LOOCV step 44/100 | predicted=2 actual=2 [correct]
+LOOCV step 45/100 | predicted=2 actual=2 [correct]
+LOOCV step 46/100 | predicted=2 actual=2 [correct]
+LOOCV step 47/100 | predicted=1 actual=1 [correct]
+LOOCV step 48/100 | predicted=2 actual=2 [correct]
+LOOCV step 49/100 | predicted=1 actual=1 [correct]
+LOOCV step 50/100 | predicted=2 actual=2 [correct]
+LOOCV step 51/100 | predicted=2 actual=2 [correct]
+LOOCV step 52/100 | predicted=1 actual=1 [correct]
+LOOCV step 53/100 | predicted=1 actual=1 [correct]
+LOOCV step 54/100 | predicted=1 actual=1 [correct]
+LOOCV step 55/100 | predicted=2 actual=2 [correct]
+LOOCV step 56/100 | predicted=1 actual=2 [wrong]
+LOOCV step 57/100 | predicted=1 actual=2 [wrong]
+LOOCV step 58/100 | predicted=2 actual=2 [correct]
+LOOCV step 59/100 | predicted=2 actual=2 [correct]
+LOOCV step 60/100 | predicted=2 actual=2 [correct]
+LOOCV step 61/100 | predicted=2 actual=2 [correct]
+LOOCV step 62/100 | predicted=2 actual=2 [correct]
+LOOCV step 63/100 | predicted=2 actual=2 [correct]
+LOOCV step 64/100 | predicted=2 actual=2 [correct]
+LOOCV step 65/100 | predicted=2 actual=2 [correct]
+LOOCV step 66/100 | predicted=1 actual=1 [correct]
+LOOCV step 67/100 | predicted=1 actual=1 [correct]
+LOOCV step 68/100 | predicted=2 actual=2 [correct]
+LOOCV step 69/100 | predicted=2 actual=2 [correct]
+LOOCV step 70/100 | predicted=1 actual=1 [correct]
+LOOCV step 71/100 | predicted=2 actual=2 [correct]
+LOOCV step 72/100 | predicted=2 actual=2 [correct]
+LOOCV step 73/100 | predicted=1 actual=2 [wrong]
+LOOCV step 74/100 | predicted=2 actual=2 [correct]
+LOOCV step 75/100 | predicted=2 actual=2 [correct]
+LOOCV step 76/100 | predicted=2 actual=2 [correct]
+LOOCV step 77/100 | predicted=2 actual=2 [correct]
+LOOCV step 78/100 | predicted=1 actual=2 [wrong]
+LOOCV step 79/100 | predicted=2 actual=1 [wrong]
+LOOCV step 80/100 | predicted=2 actual=2 [correct]
+LOOCV step 81/100 | predicted=2 actual=2 [correct]
+LOOCV step 82/100 | predicted=1 actual=1 [correct]
+LOOCV step 83/100 | predicted=2 actual=2 [correct]
+LOOCV step 84/100 | predicted=2 actual=2 [correct]
+LOOCV step 85/100 | predicted=2 actual=1 [wrong]
+LOOCV step 86/100 | predicted=1 actual=1 [correct]
+LOOCV step 87/100 | predicted=2 actual=2 [correct]
+LOOCV step 88/100 | predicted=1 actual=1 [correct]
+LOOCV step 89/100 | predicted=1 actual=1 [correct]
+LOOCV step 90/100 | predicted=2 actual=2 [correct]
+LOOCV step 91/100 | predicted=2 actual=2 [correct]
+LOOCV step 92/100 | predicted=2 actual=2 [correct]
+LOOCV step 93/100 | predicted=2 actual=2 [correct]
+LOOCV step 94/100 | predicted=2 actual=2 [correct]
+LOOCV step 95/100 | predicted=1 actual=1 [correct]
+LOOCV step 96/100 | predicted=1 actual=2 [wrong]
+LOOCV step 97/100 | predicted=2 actual=2 [correct]
 LOOCV step 98/100 | predicted=2 actual=1 [wrong]
 LOOCV step 99/100 | predicted=2 actual=2 [correct]
 LOOCV step 100/100 | predicted=2 actual=2 [correct]
 
-Feature subset {3,5,7} => Correct: 89/100 | Accuracy: 0.89
-Time: 0.00166979 seconds
+Feature subset {3,5,7} => Correct: 89/100 | Accuracy: 0.89 | Time: 0.00166979 seconds
 
 Final accuracy on small-test-dataset.txt with features {3,5,7}: 0.89
-
-</details>
-
----
-
-### **Large Dataset (Summary Only)**
 
 ==============================
  Part II: Large Dataset Test
@@ -231,9 +312,11 @@ Normalizing large dataset...
 Normalization done.
 Running LOOCV with feature subset {1,15,27}...
 
-Feature subset {1,15,27} => Correct: 950/1000 | Accuracy: 0.95
-Time: 0.102173 seconds
+
+Feature subset {1,15,27} => Correct: 950/1000 | Accuracy: 0.95 | Time: 0.102173 seconds
 
 Final accuracy on large-test-dataset.txt with features {1,15,27}: 0.95
 
 Part II experiments finished.
+```
+
