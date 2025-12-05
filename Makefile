@@ -6,7 +6,7 @@ CXXFLAGS = -std=c++14 -Wall -Wextra -O2
 TARGET  = feature_selection
 
 # Source files
-SRCS    = main.cpp feature_selection.cpp
+SRCS = main.cpp feature_selection.cpp nn_classifier.cpp dataset.cpp
 
 # Object files (same as SRCS but with .o)
 OBJS    = $(SRCS:.cpp=.o)
