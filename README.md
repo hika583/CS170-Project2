@@ -122,3 +122,118 @@ where **d** is the total number of features.
 
 The NN classifier in this project follows the standard 1-Nearest Neighbor approach. The Train function simply stores the training instances, since 1-NN is a lazy-learning method and does not build a model. The Test function classifies a new instance by computing the Euclidean distance between the test instance and every stored training instance, using only the selected feature subset. The classifier then returns the label of the closest instance.
 Before classification, the dataset is standardized using z-score normalization, ensuring that all features contribute equally to the distance calculation. This prevents large-valued features from dominating the similarity measure.
+
+
+## Dataset Normalization
+
+As required in the project description, **all datasets are normalized before running LOOCV**.  
+Each feature column is independently rescaled to the range **[0, 1]**, ensuring:
+
+- features are comparable in scale  
+- no single feature dominates the Euclidean distance  
+- distance-based classification behaves consistently  
+
+The small and large datasets are normalized **independently**.
+
+
+## Leave-One-Out Cross Validation (LOOCV)
+
+The validator evaluates the 1-NN classifier using **Leave-One-Out Cross Validation**.  
+For a dataset of size **N**:
+
+1. Select instance *i* as the **test instance**.  
+2. Use the remaining **N − 1** instances as the **training set**.  
+3. Classify the test instance using 1-NN.  
+4. Count whether the prediction was correct.  
+5. Repeat for **all N instances**.
+
+The accuracy is computed as:
+
+\[
+\text{Accuracy} = \frac{\text{Number of Correct Predictions}}{N}
+\]
+
+A high-resolution timer records the **total runtime** for the entire LOOCV evaluation.  
+
+For the **small dataset (100 instances)**, verbose mode is enabled, printing each step's predicted and actual labels, producing a detailed trace.
+
+
+## Feature Subset Evaluation (Part II Results)
+
+The validator was applied to the feature subsets specified in the project handout:
+
+- **Small dataset** → subset **{3, 5, 7}**  
+- **Large dataset** → subset **{1, 15, 27}**
+
+The results obtained match the expected accuracies from the project document:
+
+- Small dataset accuracy ≈ **0.89**  
+- Large dataset accuracy ≈ **0.95**
+
+These results confirm that:
+
+- dataset normalization  
+- the NN classifier  
+- and the LOOCV validator  
+
+were all implemented correctly.
+
+## Part II – Sample Program Output (CLI)
+
+Welcome to Hikaru Shimada and Tristan Zhao's Feature Selection & NN Project.
+Please enter total number of features for feature selection (Part I / III): 3
+
+Type the number of the option you want to run:
+1) Forward Selection (Part I)
+2) Backward Elimination (Part I)
+3) Part II: Run NN + Validator on sample datasets
+Choice: 3
+
+### **Small Dataset (Verbose LOOCV Trace)**
+
+<details>
+<summary>Click to expand full LOOCV trace (100 steps)</summary>
+
+==============================
+ Part II: Small Dataset Test
+==============================
+Loaded 100 instances from small-test-dataset.txt
+Normalizing small dataset...
+Normalization done.
+Running LOOCV with feature subset {3,5,7}...
+
+LOOCV step 1/100 | predicted=2 actual=2 [correct]
+LOOCV step 2/100 | predicted=2 actual=2 [correct]
+LOOCV step 3/100 | predicted=2 actual=2 [correct]
+LOOCV step 4/100 | predicted=1 actual=2 [wrong]
+LOOCV step 5/100 | predicted=2 actual=2 [correct]
+...
+LOOCV step 98/100 | predicted=2 actual=1 [wrong]
+LOOCV step 99/100 | predicted=2 actual=2 [correct]
+LOOCV step 100/100 | predicted=2 actual=2 [correct]
+
+Feature subset {3,5,7} => Correct: 89/100 | Accuracy: 0.89
+Time: 0.00166979 seconds
+
+Final accuracy on small-test-dataset.txt with features {3,5,7}: 0.89
+
+</details>
+
+---
+
+### **Large Dataset (Summary Only)**
+
+==============================
+ Part II: Large Dataset Test
+==============================
+Loaded 1000 instances from large-test-dataset.txt
+Normalizing large dataset...
+Normalization done.
+Running LOOCV with feature subset {1,15,27}...
+
+Feature subset {1,15,27} => Correct: 950/1000 | Accuracy: 0.95
+Time: 0.102173 seconds
+
+Final accuracy on large-test-dataset.txt with features {1,15,27}: 0.95
+
+Part II experiments finished.
