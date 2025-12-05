@@ -116,3 +116,9 @@ where **d** is the total number of features.
 
 ### Trace for Backward Elimination:
 <img width="585" height="447" alt="截屏2025-11-24 下午3 51 31" src="https://github.com/user-attachments/assets/90734aa8-4c30-41ef-bd30-0161a1b3d3bc" />
+
+
+## Nearest Neighbor Classifier
+
+The NN classifier in this project follows the standard 1-Nearest Neighbor approach. The Train function simply stores the training instances, since 1-NN is a lazy-learning method and does not build a model. The Test function classifies a new instance by computing the Euclidean distance between the test instance and every stored training instance, using only the selected feature subset. The classifier then returns the label of the closest instance.
+Before classification, the dataset is standardized using z-score normalization, ensuring that all features contribute equally to the distance calculation. This prevents large-valued features from dominating the similarity measure.
