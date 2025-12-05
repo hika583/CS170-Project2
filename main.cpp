@@ -71,16 +71,78 @@ void runPartIIExperiments() {
     cout << "Part II experiments finished.\n\n";
 }
 
+// Helper to load a dataset by choice and run Forward/Backward selection (Part III)
+void runPartIIISelection(bool useForward) {
+    cout << "Select dataset for feature selection:\n";
+    cout << " 1) small-test-dataset.txt\n";
+    cout << " 2) large-test-dataset.txt\n";
+    cout << " 3) titanic-dataset.txt\n";   // <-- adjust name if needed
+    cout << "Choice: ";
+
+    int dchoice;
+    cin >> dchoice;
+
+    string filename;
+    if (dchoice == 1) {
+        filename = "small-test-dataset.txt";
+    } else if (dchoice == 2) {
+        filename = "large-test-dataset.txt";
+    } else if (dchoice == 3) {
+        filename = "titanic-dataset.txt";  // change if your file has a different name
+    } else {
+        cout << "Invalid dataset choice.\n";
+        return;
+    }
+
+    vector<Instance> data = loadDataset(filename);
+    cout << "Loaded " << data.size() << " instances from " << filename << "\n";
+
+    if (data.empty()) {
+        cout << "Error: dataset is empty or could not be loaded.\n";
+        return;
+    }
+
+    cout << "Do you want to normalize the dataset? (y/n): ";
+    char yn;
+    cin >> yn;
+
+    if (yn == 'y' || yn == 'Y') {
+        cout << "Normalizing dataset...\n";
+        normalizeDataset(data);
+        cout << "Normalization done.\n\n";
+    } else {
+        cout << "Skipping normalization.\n\n";
+    }
+
+    int totalFeatures = static_cast<int>(data[0].features.size());
+    cout << "Dataset has " << totalFeatures << " features.\n\n";
+
+    // Create Validator for LOOCV
+    Validator v;
+
+    // Optional: default rate with no features
+    vector<int> emptySet;
+    double defaultAcc = v.leaveOneOutValidation(data, emptySet, false);
+    cout << "Running nearest neighbor with no features (default rate), "
+            "using \"leaving-one-out\" evaluation, I get an accuracy of "
+         << defaultAcc << "%\n\n";
+
+    if (useForward) {
+        cout << "Running Forward Selection (LOOCV-based evaluation)...\n\n";
+        forwardSelection(data, totalFeatures, v);
+    } else {
+        cout << "Running Backward Elimination (LOOCV-based evaluation)...\n\n";
+        backwardElimination(data, totalFeatures, v);
+    }
+}
+
+
 int main() {
     cout << "Welcome to Hikaru Shimada and Tristan Zhao's Feature Selection & NN Project.\n\n";
 
-    cout << "Please enter total number of features for feature selection (Part I / III): ";
-    int totalFeatures;
-    cin >> totalFeatures;
-
-    cout << "\nType the number of the option you want to run:\n";
-    cout << "1) Forward Selection (Part I)\n";
-    cout << "2) Backward Elimination (Part I)\n";
+    cout << "Type the number of the option you want to run:\n";
+    cout << "1) Forward Selection with LOOCV (Part III)\n";
+    cout << "2) Backward Elimination with LOOCV (Part III)\n";
     cout << "3) Part II: Run NN + Validator on sample datasets\n";
     cout << "Choice: ";
 
@@ -89,9 +151,9 @@ int main() {
     cout << "\n";
 
     if (choice == 1) {
-        forwardSelection(totalFeatures);
+        runPartIIISelection(true);
     } else if (choice == 2) {
-        backwardElimination(totalFeatures);
+        runPartIIISelection(false);
     } else if (choice == 3) {
         runPartIIExperiments();
     } else {

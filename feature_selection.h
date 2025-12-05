@@ -3,19 +3,20 @@
 
 #include <vector>
 #include <string>
+#include "dataset.h"
+#include "validator.h"
 
-using namespace std;
+// Pretty-print feature subsets
+std::string featureSetToString(const std::vector<int>& features);
 
-// Stub evaluation function (Part I): returns random "accuracy" 0–100
-double evaluateFeatureSet(const vector<int>& features);
+// Forward selection using LOOCV
+void forwardSelection(const std::vector<Instance>& data,
+                      int totalFeatures,
+                      Validator& v);
 
-// Utility to print feature sets like {1,2,4}
-string featureSetToString(const vector<int>& features);
+// Backward elimination using LOOCV
+void backwardElimination(const std::vector<Instance>& data,
+                         int totalFeatures,
+                         Validator& v);
 
-// Forward Selection search
-void forwardSelection(int totalFeatures);
-
-// Backward Elimination search
-void backwardElimination(int totalFeatures);
-
-#endif // FEATURE_SELECTION_H
+#endif
