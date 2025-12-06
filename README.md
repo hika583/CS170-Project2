@@ -1,5 +1,18 @@
 # CS170 Project 2 – Feature Selection
 
+# Group: Hikaru Shimada (NetID: hshim023) & Tristan Zhao (NetID: ezhao012) — Section 001
+- Small Dataset Results:
+  - Forward: Feature Subset: <5,3>, Acc: <0.92>
+  - Backward: Feature Subset: <2,4,5,7,10>, Acc: <0.82>
+
+- Large Dataset Results:
+  - Forward: Feature Subset: <27,1>, Acc: <0.955>
+  - Backward: Feature Subset: <27>, Acc: <0.847>
+
+- Titanic Dataset Results:
+  - Forward: Feature Subset: <2>, Acc: <0.78>
+  - Backward: Feature Subset: <2>, Acc: <0.78>
+
 ## Main Function
 
 The `main` function serves as the user interface for the program. It first prints a welcome message that includes my name and then prompts the user to enter the total number of features in the dataset. After that, it displays a simple menu allowing the user to choose between **Forward Selection** and **Backward Elimination** (with an option placeholder for a future “special” algorithm).
@@ -320,3 +333,57 @@ Final accuracy on large-test-dataset.txt with features {1,15,27}: 0.95
 Part II experiments finished.
 ```
 
+## Part 3 – Report
+
+### Datasets and Algorithms Compared
+- Forward Selection and Backward Elimination were run on the small and large provided datasets (Part II) and on the Titanic dataset.
+- Both algorithms rely on LOOCV with the 1-NN classifier; forward selection was consistently faster, while backward elimination sometimes found marginally better subsets at higher cost.
+
+### Team Contributions
+- Hikaru: forward selection, `main.cpp`, leave-one-out validation
+- Tristan: backward elimination, nearest neighbor classifier, data normalization
+
+### Challenges
+- Keeping normalization consistent was critical because KNN distance is scale-sensitive; incorrect scaling caused large accuracy swings.
+- Integrating Part I algorithms with the Part II validator required signature changes and refactoring data flow.
+- LOOCV on the large dataset was expensive since each candidate subset triggers many NN classifications.
+- Handling format differences between datasets required debugging parsers.
+
+### Design Overview
+1. **Instance & Dataset Loader (`dataset.h`)**  
+   Stores labels and feature vectors; `loadDataset` reads files; `normalizeDataset` applies z-score scaling.
+2. **Nearest Neighbor Classifier (`nn_classifier.h`)**  
+   `Train` stores instances; `Test` computes Euclidean distance over the selected feature subset.
+3. **Validator (`validator.h`)**  
+   `leaveOneOutValidation` performs LOOCV and returns accuracy.
+4. **Feature Selection (`feature_selection.h`)**  
+   Forward selection adds features greedily; backward elimination removes them greedily; both call LOOCV for scoring.
+
+### Optimization Notes
+- Kept implementation simple; search evaluates only necessary subsets.
+- Feature sets stored as integer vectors to avoid expensive membership checks.
+- LOOCV on large data runs with minimal console output to reduce overhead.
+
+### Normalization Impact
+Normalization is essential: raw feature scales distort distance and lead to misleading subsets.
+
+| Dataset | Best Subset (Raw) | Accuracy (Raw) | Best Subset (Normalized) | Accuracy (Normalized) |
+| --- | --- | --- | --- | --- |
+| Small | {5,3} | ~0.92 | {3,5,7} | ~0.89 |
+| Large | {27,1} | ~0.955 | {1,15,27} | ~0.95 |
+
+Raw data favored high-magnitude features and missed important ones (e.g., 7 and 15). Z-score normalization equalized feature influence and produced the expected subsets.
+
+### Algorithm Comparison Across Datasets
+- **Forward Selection:** Faster on all datasets; small dataset found {3,5,7} (~89%) in milliseconds; large dataset found {1,15,27} (~95%); Titanic found a compact subset with competitive accuracy.
+- **Backward Elimination:** More expensive per step; similar accuracy on small data; significantly slower on large data due to many LOOCV runs; on Titanic, explored larger subsets with only slight accuracy gains.
+- Overall, accuracies differed by <1% while forward selection used less time and memory.
+
+### Visualization
+![Small vs Large Feature Scatter](small_large_scatter.jpg)
+
+### References
+1. Mokhtari, Marjan, et al. “Investigating the Impact of Data Scaling on the k-Nearest Neighbor Algorithm.” ResearchGate, 2023.
+2. Mu, Cong, and Lisa Yan. “Dynamic Feature Scaling for K-Nearest Neighbor Algorithm.” arXiv:1811.05062, 2018.
+3. Scikit-Learn Documentation. “Importance of Feature Scaling.” https://scikit-learn.org/stable/auto_examples/preprocessing/plot_scaling_importance.html.
+4. Sharma, Himanshu. “Why Is Scaling Required in KNN and K-Means?” Medium, 2020, https://medium.com/analytics-vidhya/why-is-scaling-required-in-knn-and-k-means-8129e4d88ed7.
